@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - SpawnPoint
+  - Rooms
+  - Door
+  - Floor
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -12,10 +16,10 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Floor
+  - Wall
+  - Player
+  - Enemy
   - 
   - 
   - 
