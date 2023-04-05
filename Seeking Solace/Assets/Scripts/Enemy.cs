@@ -2,34 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterStats))]
-public class Enemy : GameInteractable
+public class Enemy : MonoBehaviour
 {
+    [SerializeField] float health = 3;
 
-    PlayerManager playerManager;
-    CharacterStats myStats;
+    GameObject player;
+    Animator animator;
 
-    // Start is called before the first frame update
     void Start()
     {
-        playerManager = PlayerManager.instance;
-        myStats = GetComponent<CharacterStats>();
+        player = GameObject.FindWithTag("Player");
+        animator = GetComponent<Animator>();
     }
 
-    public override void Interact()
+    public void TakeDamage(float damage)
     {
-        base.Interact();
-        Combat playerCombat = playerManager.player.GetComponent<Combat>();
+        health -= damage;
 
-        if (playerCombat != null)
+        animator.SetTrigger("damage");
+
+        if (health <= 0)
         {
-            playerCombat.Attack(myStats);
+            Die();
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    void Die()
     {
-        
+        Destroy(this.gameObject);
     }
 }
