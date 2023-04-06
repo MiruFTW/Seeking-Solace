@@ -10,10 +10,13 @@ public class EnemyAI : MonoBehaviour
     public Transform player;
 
     public LayerMask whatIsGround, whatIsPlayer;
+    Animator animator;
 
     //Patroling
     public Vector3 walkPoint;
     bool walkPointSet;
+    float timePassed;
+    float attackCD = 3f;
     public float walkPointRange;
 
     //Attacking
@@ -34,7 +37,7 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -87,14 +90,16 @@ public class EnemyAI : MonoBehaviour
 
         transform.LookAt(player);
 
-        if (alreadyAttacked == false)
+        if (alreadyAttacked == false && timePassed >= attackCD)
         {
-
-
+            Debug.Log("Enemy Attacking!");
+            animator.SetTrigger("Attack");
+            timePassed = 0;
             alreadyAttacked = true;
 
             Invoke(nameof(resetAttack), attackCooldown);
         }
+        timePassed += Time.deltaTime;
     }
 
     private void resetAttack()

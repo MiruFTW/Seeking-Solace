@@ -8,14 +8,25 @@ public class EnemyController : MonoBehaviour
 
     public float lookRadius = 10f;
 
+
     Transform target;
     NavMeshAgent agent;
+
+    float timePassed;
+
+    bool alreadyAttacked;
+
+    float attackCD = 3f;
+
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        alreadyAttacked = false;
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
         
     }
 
@@ -33,6 +44,8 @@ public class EnemyController : MonoBehaviour
                 //Attack the target
                 faceTarget();
                 //Face the target
+                alreadyAttacked = false;
+                attackPlayer();
             }
         }
     }
@@ -42,6 +55,24 @@ public class EnemyController : MonoBehaviour
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation,Time.deltaTime * 5f);
+    }
+
+    private void attackPlayer()
+    {
+        agent.SetDestination(transform.position);
+
+        transform.LookAt(target);
+
+        if (alreadyAttacked == false && timePassed >= attackCD)
+        {
+            Debug.Log("Enemy Attacking!");
+            animator.SetTrigger("Attack");
+            timePassed = 0;
+            alreadyAttacked = true;
+
+            //Invoke(nameof(resetAttack), attackCooldown);
+        }
+        timePassed += Time.deltaTime;
     }
 
     private void OnDrawGizmosSelected()

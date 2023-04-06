@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class Character : MonoBehaviour
 {
-    //public Camera cam;
     [Header("Controls")]
     public float playerSpeed = 10f;
     public float crouchSpeed = 2.0f;

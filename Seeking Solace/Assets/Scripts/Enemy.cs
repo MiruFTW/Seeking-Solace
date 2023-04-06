@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float health = 3;
+    [SerializeField] float health = 15;
 
     GameObject player;
     Animator animator;
@@ -15,11 +15,15 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    void Update()
+    {
+        
+    }
+
     public void TakeDamage(float damage)
     {
         health -= damage;
 
-        animator.SetTrigger("damage");
 
         if (health <= 0)
         {

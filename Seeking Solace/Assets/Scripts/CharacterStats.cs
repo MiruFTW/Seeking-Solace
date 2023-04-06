@@ -26,7 +26,6 @@ public class CharacterStats : MonoBehaviour
         damage = Mathf.Clamp(damage, 0, int.MaxValue);
 
         currentHealth -= damage;
-        Debug.Log(transform.name + " takes " + damage + " damage.");
 
         if (currentHealth <= 0)
         {
@@ -34,9 +33,21 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
+    public void StartDealDamage()
+    {
+        this.GetComponentInChildren<DamageDealer>().StartDealDamage();
+    }
+
+    public void EndDealDamage()
+    {
+        this.GetComponentInChildren<DamageDealer>().EndDealDamage();
+    }
+
     public virtual void Die()
     {
         Debug.Log(transform.name + " died.");
         Destroy(this.gameObject);
     }
+
+
 }

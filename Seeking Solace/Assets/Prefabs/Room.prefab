@@ -53,7 +53,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2369002950213275762
 Transform:
   m_ObjectHideFlags: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e42aac0b0162f1438455633b6e4480c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 2297250262026964630, guid: 473a3ea1ec620814987417ba52d70498, type: 3}
+  enemyPrefab: {fileID: 3886208469736578632, guid: cb5345406edd31d46ab6dbe32d9b656c, type: 3}
   minEnemy: 3
   maxEnemy: 5
   spawnRadius: 5
