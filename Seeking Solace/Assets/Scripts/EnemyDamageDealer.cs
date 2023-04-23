@@ -6,9 +6,10 @@ public class EnemyDamageDealer : MonoBehaviour
 {
     bool canDealDamage;
     bool hasDealtDamage;
+
  
     [SerializeField] float weaponLength;
-    [SerializeField] int weaponDamage;
+    public int weaponDamage;
     void Start()
     {
         canDealDamage = false;
@@ -27,7 +28,7 @@ public class EnemyDamageDealer : MonoBehaviour
             {
                 if (hit.transform)
                     {
-                        CharacterStats enemy = hit.transform.GetComponent<CharacterStats>();
+                        Character enemy = hit.transform.GetComponent<Character>();
                         Debug.Log("Sword deals " + weaponDamage + " damage to the target.");
                         enemy.TakeDamage(weaponDamage);
                         hasDealtDamage = true;

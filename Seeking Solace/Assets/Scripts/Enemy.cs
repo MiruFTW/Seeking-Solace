@@ -7,12 +7,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] float health = 15;
 
     GameObject player;
-    Animator animator;
+    [HideInInspector]
+    public Animator animator;
+
+    Room room;
 
     void Start()
     {
         player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
+        room = transform.parent.GetComponent<Room>();
     }
 
     void Update()
@@ -27,12 +31,24 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0)
         {
+            Debug.Log("Enemy died");
             Die();
         }
     }
 
+
     void Die()
     {
+        room.enemiesLeft--;
         Destroy(this.gameObject);
+    }
+
+    public void StartDealDamage()
+    {
+        GetComponentInChildren<EnemyDamageDealer>().StartDealDamage();
+    }
+    public void EndDealDamage()
+    {
+        GetComponentInChildren<EnemyDamageDealer>().EndDealDamage();
     }
 }

@@ -5,7 +5,10 @@ using UnityEngine;
 public class DamageDealer : MonoBehaviour
 {
     bool canDealDamage;
+
     List<GameObject> hasDealtDamage;
+
+    Room room = new Room();
 
     [SerializeField] float weaponLength;
     [SerializeField] int weaponDamage;
@@ -26,10 +29,7 @@ public class DamageDealer : MonoBehaviour
             int layerMask = 1 << 9;
             if (Physics.Raycast(transform.position, -transform.up, out hit, weaponLength, layerMask))
             {
-                //if (!hasDealtDamage.Contains(hit.transform.gameObject))
-                //{
-                    //hasDealtDamage.Add(hit.transform.gameObject);
-                    //CharacterStats targetStats = hit.transform.GetComponent<CharacterStats>();
+
                     if (!hasDealtDamage.Contains(hit.transform.gameObject))
                     {
                         Enemy enemy = hit.transform.GetComponent<Enemy>();
@@ -38,7 +38,6 @@ public class DamageDealer : MonoBehaviour
                         hasDealtDamage.Add(hit.transform.gameObject);
                     }
                     
-                //}
             }
         }
     }

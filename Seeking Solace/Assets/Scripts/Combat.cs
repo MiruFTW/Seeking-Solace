@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
@@ -16,4 +16,4 @@ public class Combat : MonoBehaviour
     {
        // targetStats.TakeDamage(myStats.damage.GetValue());
     }
-}
+}*/

@@ -34,6 +34,7 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         float distance = Vector3.Distance(target.position, transform.position);
+        Enemy enemy = GetComponent<Enemy>();
 
         if (distance <= lookRadius)
         {
@@ -59,20 +60,24 @@ public class EnemyController : MonoBehaviour
 
     private void attackPlayer()
     {
+        Enemy enemy = GetComponent<Enemy>();
         agent.SetDestination(transform.position);
 
         transform.LookAt(target);
 
+
         if (alreadyAttacked == false && timePassed >= attackCD)
         {
             Debug.Log("Enemy Attacking!");
-            animator.SetTrigger("Attack");
+            enemy.animator.SetTrigger("Attack");
             timePassed = 0;
             alreadyAttacked = true;
 
             //Invoke(nameof(resetAttack), attackCooldown);
         }
         timePassed += Time.deltaTime;
+        enemy.animator.SetFloat("Speed", 1f);
+        
     }
 
     private void OnDrawGizmosSelected()

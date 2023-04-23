@@ -17,16 +17,17 @@ public class Door : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (connectedDoors == false)
-        {
-            doorBoxCollider.isTrigger = false;
-        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (roomCompleted == true)
+        {
+            this.gameObject.SetActive(false);
+            connectedDoor.gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -36,25 +37,32 @@ public class Door : MonoBehaviour
             Debug.Log("Door is connected");
             connectedDoor = other.GetComponent<Door>(); // Set the connected door reference
             connectedDoors = true;
+            doorBoxCollider.isTrigger = false;
+        }
+        else
+        {
+            doorBoxCollider.isTrigger = false;
         }
 
-        if (other.CompareTag("Player") && roomCompleted == false && connectedDoors == true)
+        /*if (other.CompareTag("Player") && roomCompleted == true && connectedDoors == true)
         {
             Debug.Log("Player went through door");
 
             // Destroy the door and the connected door
-            Destroy(this.gameObject);
-            Destroy(connectedDoor.gameObject);
+            //Destroy(this.gameObject);
+            //Destroy(connectedDoor.gameObject);
+            this.gameObject.SetActive(false);
+            connectedDoor.gameObject.SetActive(false);
             connectedDoors = false;
             doorRigidbody.isKinematic = false;
-        }
-        else if (other.CompareTag("Player") && roomCompleted == true && connectedDoors == true)
+        }*/
+        /*else if (other.CompareTag("Player") && roomCompleted == false && connectedDoors == true)
         {
             Debug.Log("Enemies spawned");
 
             var enemyScript = GameObject.FindObjectOfType(typeof(EnemySpawner)) as EnemySpawner;
 
             enemyScript.spawnEnemies();
-        }
+        }*/
     }
 }

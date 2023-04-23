@@ -22,8 +22,7 @@ public class DungeonGenerator : MonoBehaviour
         // Generate the dungeon
         generateDungeon();
 
-        // Set the scale of the parent object to transform the rooms to a 16:9 aspect ratio
-        //transform.localScale = new Vector3(1.6f, 1f, 0.9f);
+        // Move room so that the floor is at Y-0
         transform.localPosition = new Vector3(0f, 3.45f, 0f);
 
         foreach (GameObject room in rooms)
@@ -33,12 +32,20 @@ public class DungeonGenerator : MonoBehaviour
             {
                 enemySpawner.spawnEnemies();
             }
+
+            TreasureRoom treasureRoom = room.GetComponentInChildren<TreasureRoom>();
+            if (treasureRoom != null)
+            {
+                treasureRoom.spawnTreasure();
+            }
+
+            BossRoom bossRoom = room.GetComponentInChildren<BossRoom>();
+            if (bossRoom != null)
+            {
+                bossRoom.spawnBoss();
+            }
         }
-
-        //var enemyScript = GameObject.FindObjectOfType(typeof(EnemySpawner)) as EnemySpawner;
-
-        //enemyScript.spawnEnemies();
-
+        
 
     }
 
@@ -52,57 +59,89 @@ public class DungeonGenerator : MonoBehaviour
     private void generateDungeon()
     {
         // Add first room
-        GameObject firstRoom = Instantiate(roomPrefabs[0], Vector3.zero, Quaternion.identity);
-        firstRoom.transform.parent = transform;
-        rooms.Add(firstRoom);
+        GameObject startingRoom = Instantiate(roomPrefabs[0], Vector3.zero, Quaternion.identity);
+        startingRoom.transform.parent = transform;
+        rooms.Add(startingRoom);
 
         // Add remaining rooms
         for (int i = 1; i < numRooms; i++)
         {
-            GameObject newRoom = Instantiate(roomPrefabs[rand.Next(1, roomPrefabs.Length)], Vector3.zero, Quaternion.identity);
-            newRoom.transform.parent = transform;
+            GameObject newRoom;
 
-            bool roomPlaced = false;
-            int numTries = 0;
-
-            while (!roomPlaced && numTries < 100)
+            if (i == numRooms - 1)
             {
-                // Choose a random direction
+                // This is the last room, so spawn the boss room with only one connection
                 Vector3 direction = directions[rand.Next(0, directions.Count)];
-
-                // Calculate the position for the new room
                 Vector3 newPosition = rooms[i - 1].transform.position + direction * roomWidth;
+                newRoom = Instantiate(roomPrefabs[roomPrefabs.Length - 1], newPosition, Quaternion.identity);
+                newRoom.transform.parent = transform;
 
-                // Check if there is already a room in that position
-                bool roomExists = false;
-                foreach (GameObject room in rooms)
-                {
-                    if (Vector3.Distance(room.transform.position, newPosition) < roomWidth)
-                    {
-                        roomExists = true;
-                        break;
-                    }
-                }
-
-                // If there is no room in that position, place the new room and connect it to the previous room
-                if (!roomExists)
-                {
-                    newRoom.transform.position = newPosition;
-                    roomPlaced = true;
-                }
-
-                numTries++;
-            }
-
-            if (!roomPlaced)
-            {
-                Debug.LogError("Could not place room " + i);
-                Destroy(newRoom);
+                // Connect the boss room to the previous room
+                connectRooms(rooms[i - 1], newRoom);
             }
             else
             {
-                rooms.Add(newRoom);
+                newRoom = Instantiate(roomPrefabs[rand.Next(1, roomPrefabs.Length - 1)], Vector3.zero, Quaternion.identity);
+                newRoom.transform.parent = transform;
+
+                bool roomPlaced = false;
+                int numTries = 0;
+
+                while (!roomPlaced && numTries < 100)
+                {
+                    // Choose a random direction
+                    Vector3 direction = directions[rand.Next(0, directions.Count)];
+
+                    // Calculate the position for the new room
+                    Vector3 newPosition = rooms[i - 1].transform.position + direction * roomWidth;
+
+                    // Check if there is already a room in that position
+                    bool roomExists = false;
+                    foreach (GameObject room in rooms)
+                    {
+                        if (Vector3.Distance(room.transform.position, newPosition) < roomWidth)
+                        {
+                            roomExists = true;
+                            break;
+                        }
+                    }
+
+                    // If there is no room in that position, place the new room and connect it to the previous room
+                    if (!roomExists)
+                    {
+                        newRoom.transform.position = newPosition;
+                        connectRooms(rooms[i - 1], newRoom);
+                        roomPlaced = true;
+                    }
+
+                    numTries++;
+                }
+
+                if (!roomPlaced)
+                {
+                    Debug.LogError("Could not place room " + i);
+                    Destroy(newRoom);
+                }
             }
+
+            rooms.Add(newRoom);
         }
+    }
+
+    private void connectRooms(GameObject roomA, GameObject roomB)
+    {
+        NavMeshLink link = roomA.GetComponent<NavMeshLink>();
+        if (link == null)
+        {
+            link = roomA.AddComponent<NavMeshLink>();
+        }
+        link.endPoint = roomB.transform.position;
+
+        link = roomB.GetComponent<NavMeshLink>();
+        if (link == null)
+        {
+            link = roomB.AddComponent<NavMeshLink>();
+        }
+        link.startPoint = roomA.transform.position;
     }
 }

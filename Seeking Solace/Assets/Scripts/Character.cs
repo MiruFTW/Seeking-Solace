@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class Character : MonoBehaviour
 {
+    public float health = 6f;
     [Header("Controls")]
     public float playerSpeed = 10f;
     public float crouchSpeed = 2.0f;
@@ -23,12 +24,6 @@ public class Character : MonoBehaviour
  
     public StateMachine movementSM;
     public StandingState standing;
-    /*public JumpingState jumping;
-    public CrouchingState crouching;
-    public LandingState landing;
-    public SprintState sprinting;
-    public SprintJumpState sprintjumping;
-    public CombatState combatting;*/
     public AttackState attacking;
  
     [HideInInspector]
@@ -57,16 +52,9 @@ public class Character : MonoBehaviour
  
         movementSM = new StateMachine();
         standing = new StandingState(this, movementSM);
-        //combatting = new CombatState(this, movementSM);
         attacking = new AttackState(this, movementSM);
-
-        /*jumping = new JumpingState(this, movementSM);
-        crouching = new CrouchingState(this, movementSM);
-        landing = new LandingState(this, movementSM);
-        sprinting = new SprintState(this, movementSM);
-        sprintjumping = new SprintJumpState(this, movementSM);
         
-        */
+        
  
         movementSM.Initialize(standing);
  
@@ -86,11 +74,24 @@ public class Character : MonoBehaviour
         movementSM.currentState.PhysicsUpdate();
     }
 
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Destroy(this.gameObject);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Door")
-        {
-            Debug.Log("Player");
-        }
+        
     }
 }

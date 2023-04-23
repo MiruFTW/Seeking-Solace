@@ -9,12 +9,14 @@ public class EnemySpawner : MonoBehaviour
     public int minEnemy;
     public int maxEnemy;
 
+    public int numEnemies;
+
     public int spawnRadius;
 
     public void spawnEnemies()
     {
         // Choose a random number of enemies to spawn
-        int numEnemies = Random.Range(minEnemy, maxEnemy);
+        numEnemies = Random.Range(minEnemy, maxEnemy);
 
         for (int i = 0; i < numEnemies; i++)
         {
