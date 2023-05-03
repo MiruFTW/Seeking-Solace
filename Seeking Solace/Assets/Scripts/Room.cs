@@ -8,8 +8,14 @@ public class Room : MonoBehaviour
 
     public int enemiesLeft;
 
+    public Door connectedDoor = null;
+
+    public bool connectedDoors = false;
+
     public bool roomCompleted = false;
 
+    public Rigidbody doorRigidbody;
+    public BoxCollider doorBoxCollider;
 
     public List<GameObject> enemies = new List<GameObject>();
 
@@ -29,6 +35,8 @@ public class Room : MonoBehaviour
             {
                 Debug.Log("All enemies in the room are dead");
                 roomCompleted = true;
+                //disableWithTag("Door");
+
             }
         }
     }
@@ -57,9 +65,29 @@ public class Room : MonoBehaviour
         }
     }
 
+    public void disableWithTag(string _tag)
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag(_tag);
+        List<GameObject> doorsToDisable = new List<GameObject>();
+
+        // Find doors that are touching another door
+        foreach (GameObject obj in objects)
+        {
+            if (obj.GetComponent<Collider>().bounds.Intersects(transform.GetComponent<Collider>().bounds))
+            {
+                doorsToDisable.Add(obj);
+            }
+        }
+
+        foreach (GameObject door in doorsToDisable)
+        {
+            door.SetActive(false);
+        }
+    }
+
+
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("enter");
     }
 
 

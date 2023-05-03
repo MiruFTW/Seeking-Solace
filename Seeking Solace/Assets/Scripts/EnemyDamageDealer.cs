@@ -7,6 +7,8 @@ public class EnemyDamageDealer : MonoBehaviour
     bool canDealDamage;
     bool hasDealtDamage;
 
+    public AudioSource audioSource;
+
  
     [SerializeField] float weaponLength;
     public int weaponDamage;
@@ -31,6 +33,7 @@ public class EnemyDamageDealer : MonoBehaviour
                         Character enemy = hit.transform.GetComponent<Character>();
                         Debug.Log("Sword deals " + weaponDamage + " damage to the target.");
                         enemy.TakeDamage(weaponDamage);
+                        audioSource.Play();
                         hasDealtDamage = true;
                     }
             }

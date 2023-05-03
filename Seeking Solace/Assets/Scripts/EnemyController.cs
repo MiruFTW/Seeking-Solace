@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour
 
     bool alreadyAttacked;
 
-    float attackCD = 3f;
+    float attackCD = 1f;
 
     Animator animator;
 

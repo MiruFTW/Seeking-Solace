@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 1896942007628164469}
   m_Layer: 0
   m_Name: Room
-  m_TagString: Untagged
+  m_TagString: Rooms
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,7 +142,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numEnemies: 0
   enemiesLeft: 0
+  connectedDoor: {fileID: 0}
+  connectedDoors: 0
   roomCompleted: 0
+  doorRigidbody: {fileID: 0}
+  doorBoxCollider: {fileID: 0}
   enemies: []
 --- !u!65 &5514498376839566411
 BoxCollider:
@@ -675,7 +679,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7207312130204547485, guid: 11f0b3638d4090f4abee7efb6281468f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15
+      value: -14.846
       objectReference: {fileID: 0}
     - target: {fileID: 7520925158013901670, guid: 11f0b3638d4090f4abee7efb6281468f, type: 3}
       propertyPath: m_Layer
@@ -687,7 +691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8020441027473367847, guid: 11f0b3638d4090f4abee7efb6281468f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8020441027473367847, guid: 11f0b3638d4090f4abee7efb6281468f, type: 3}
       propertyPath: m_TagString
@@ -1489,7 +1493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3540060926456624972, guid: 992cdcbb7e4efd7489a5077ab2fead60, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3540060926456624972, guid: 992cdcbb7e4efd7489a5077ab2fead60, type: 3}
       propertyPath: m_TagString
@@ -1944,7 +1948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7207312130204547485, guid: 11f0b3638d4090f4abee7efb6281468f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.974
+      value: -14.949
       objectReference: {fileID: 0}
     - target: {fileID: 7520925158013901670, guid: 11f0b3638d4090f4abee7efb6281468f, type: 3}
       propertyPath: m_Layer
@@ -1956,7 +1960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8020441027473367847, guid: 11f0b3638d4090f4abee7efb6281468f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8020441027473367847, guid: 11f0b3638d4090f4abee7efb6281468f, type: 3}
       propertyPath: m_TagString
@@ -2289,7 +2293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8020441027473367847, guid: 11f0b3638d4090f4abee7efb6281468f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8020441027473367847, guid: 11f0b3638d4090f4abee7efb6281468f, type: 3}
       propertyPath: m_TagString

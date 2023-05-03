@@ -14,10 +14,12 @@ public class Door : MonoBehaviour
     public Rigidbody doorRigidbody;
     public BoxCollider doorBoxCollider;
 
+    //Room room;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        //room = transform.parent.GetComponent<Room>();
     }
 
     // Update is called once per frame
@@ -44,7 +46,7 @@ public class Door : MonoBehaviour
             doorBoxCollider.isTrigger = false;
         }
 
-        /*if (other.CompareTag("Player") && roomCompleted == true && connectedDoors == true)
+        if (connectedDoors == true)
         {
             Debug.Log("Player went through door");
 
@@ -55,7 +57,7 @@ public class Door : MonoBehaviour
             connectedDoor.gameObject.SetActive(false);
             connectedDoors = false;
             doorRigidbody.isKinematic = false;
-        }*/
+        }
         /*else if (other.CompareTag("Player") && roomCompleted == false && connectedDoors == true)
         {
             Debug.Log("Enemies spawned");
@@ -64,5 +66,6 @@ public class Door : MonoBehaviour
 
             enemyScript.spawnEnemies();
         }*/
+        
     }
 }

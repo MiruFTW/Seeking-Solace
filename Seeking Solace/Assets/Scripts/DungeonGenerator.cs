@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -11,19 +12,22 @@ public class DungeonGenerator : MonoBehaviour
     public int numRooms;
     public float roomWidth;
 
+
+    int randTreasure;
+
     private List<GameObject> rooms = new List<GameObject>();
     private List<Vector3> directions = new List<Vector3> { Vector3.forward, Vector3.back, Vector3.right, Vector3.left };
 
     private System.Random rand = new System.Random();
 
 
-    private void Start()
+    public void Start()
     {
         // Generate the dungeon
         generateDungeon();
 
         // Move room so that the floor is at Y-0
-        transform.localPosition = new Vector3(0f, 3.45f, 0f);
+        //transform.localPosition = new Vector3(0f, 3.45f, 0f);
 
         foreach (GameObject room in rooms)
         {
@@ -36,17 +40,24 @@ public class DungeonGenerator : MonoBehaviour
             TreasureRoom treasureRoom = room.GetComponentInChildren<TreasureRoom>();
             if (treasureRoom != null)
             {
-                treasureRoom.spawnTreasure();
             }
 
             BossRoom bossRoom = room.GetComponentInChildren<BossRoom>();
             if (bossRoom != null)
             {
-                bossRoom.spawnBoss();
             }
         }
         
 
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            
+        }
     }
 
     IEnumerator waiter()
@@ -62,6 +73,7 @@ public class DungeonGenerator : MonoBehaviour
         GameObject startingRoom = Instantiate(roomPrefabs[0], Vector3.zero, Quaternion.identity);
         startingRoom.transform.parent = transform;
         rooms.Add(startingRoom);
+        randTreasure = Random.Range(1, numRooms - 1);
 
         // Add remaining rooms
         for (int i = 1; i < numRooms; i++)
@@ -73,7 +85,8 @@ public class DungeonGenerator : MonoBehaviour
                 // This is the last room, so spawn the boss room with only one connection
                 Vector3 direction = directions[rand.Next(0, directions.Count)];
                 Vector3 newPosition = rooms[i - 1].transform.position + direction * roomWidth;
-                newRoom = Instantiate(roomPrefabs[roomPrefabs.Length - 1], newPosition, Quaternion.identity);
+                newRoom = Instantiate(roomPrefabs[3], newPosition, Quaternion.identity);
+                
                 newRoom.transform.parent = transform;
 
                 // Connect the boss room to the previous room
@@ -81,7 +94,14 @@ public class DungeonGenerator : MonoBehaviour
             }
             else
             {
-                newRoom = Instantiate(roomPrefabs[rand.Next(1, roomPrefabs.Length - 1)], Vector3.zero, Quaternion.identity);
+                if (i == randTreasure)
+                {
+                    newRoom = Instantiate(roomPrefabs[2], Vector3.zero, Quaternion.identity);
+                }
+                else
+                {
+                    newRoom = Instantiate(roomPrefabs[1], Vector3.zero, Quaternion.identity);
+                }
                 newRoom.transform.parent = transform;
 
                 bool roomPlaced = false;
@@ -126,6 +146,8 @@ public class DungeonGenerator : MonoBehaviour
 
             rooms.Add(newRoom);
         }
+
+        transform.position = new Vector3(0f, 3.45f, 0f);
     }
 
     private void connectRooms(GameObject roomA, GameObject roomB)
@@ -144,4 +166,18 @@ public class DungeonGenerator : MonoBehaviour
         }
         link.startPoint = roomA.transform.position;
     }
+
+    public void LoadNewDungeon()
+    {
+        // Destroy the current dungeon
+        foreach (GameObject room in rooms)
+        {
+            Destroy(room);
+        }
+        rooms.Clear();
+
+        // Generate a new dungeon
+        generateDungeon();
+    }
+
 }

@@ -16,7 +16,7 @@ public class EnemyAI : MonoBehaviour
     public Vector3 walkPoint;
     bool walkPointSet;
     float timePassed;
-    float attackCD = 3f;
+    float attackCD = 1f;
     public float walkPointRange;
 
     //Attacking

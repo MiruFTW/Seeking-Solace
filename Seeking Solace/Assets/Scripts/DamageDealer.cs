@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class DamageDealer : MonoBehaviour
 {
@@ -8,10 +9,12 @@ public class DamageDealer : MonoBehaviour
 
     List<GameObject> hasDealtDamage;
 
-    Room room = new Room();
 
-    [SerializeField] float weaponLength;
-    [SerializeField] int weaponDamage;
+    public float weaponLength;
+    public int weaponDamage;
+
+    public AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +39,7 @@ public class DamageDealer : MonoBehaviour
                         Debug.Log("Sword deals " + weaponDamage + " damage to the target.");
                         enemy.TakeDamage(weaponDamage);
                         hasDealtDamage.Add(hit.transform.gameObject);
+                        audioSource.Play();
                     }
                     
             }

@@ -9,7 +9,6 @@ public class GameInteractable : MonoBehaviour
 
     bool isFocus = false;
     Transform player;
-    bool hasInteracted = false;
 
     public virtual void Interact()
     {

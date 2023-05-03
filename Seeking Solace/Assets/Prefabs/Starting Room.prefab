@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 1896942007628164469}
   m_Layer: 0
   m_Name: Starting Room
-  m_TagString: Untagged
+  m_TagString: Rooms
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,7 +94,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1222111275429491006
 Transform:
   m_ObjectHideFlags: 0
@@ -122,9 +122,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abca2bfee8f788e4c95877bcb54a853a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpawner: {fileID: 0}
   numEnemies: 0
+  enemiesLeft: 0
+  connectedDoor: {fileID: 0}
+  connectedDoors: 0
   roomCompleted: 0
+  doorRigidbody: {fileID: 0}
+  doorBoxCollider: {fileID: 0}
+  enemies: []
 --- !u!65 &5069284897485448008
 BoxCollider:
   m_ObjectHideFlags: 0
