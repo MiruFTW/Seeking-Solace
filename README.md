@@ -1,2 +1,2 @@
 # Seeking-Solace
-A 3D adventure game for final project.
+A 3D Dungeon Rougelike game for final project.
