@@ -8,6 +8,10 @@ public class BossRoom : MonoBehaviour
     public bool bossRoomCompleted = false;
     public int enemiesLeft;
 
+    public GameObject levelScreen;
+
+    public GameObject levelCompleteScreen;
+
     public List<GameObject> enemies = new List<GameObject>();
 
     Room room;
@@ -22,8 +26,13 @@ public class BossRoom : MonoBehaviour
     {
         if (room.roomCompleted == true)
         {
-            Debug.Log("Level Completed");
-            SceneManager.LoadScene("Game");
+            if (bossRoomCompleted == false)
+            {
+                Time.timeScale = 0f;
+                levelCompleteScreen.SetActive(true);
+                bossRoomCompleted = true;
+            }
+
         }
     }
 
